@@ -13,7 +13,10 @@
       "backgroundColor": "#0f0f1a"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": ["remote-notification"]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -21,8 +24,24 @@
         "backgroundColor": "#0f0f1a"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": ["NOTIFICATIONS"]
     },
+    "notification": {
+      "icon": "./assets/notification-icon.png",
+      "color": "#10b981",
+      "androidMode": "default",
+      "androidCollapsedTitle": "PredictMTT"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#10b981"
+        }
+      ]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }

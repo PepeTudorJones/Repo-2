@@ -86,3 +86,44 @@ export interface User {
   balance: number;
   currency: Currency;
 }
+
+// Notification Types
+export type NotificationType =
+  | 'ROUND_STARTING'
+  | 'PREDICTION_NEEDED'
+  | 'LOCK_DEADLINE_SOON'
+  | 'ROUND_RESOLVED'
+  | 'STRIKE_RECEIVED'
+  | 'ELIMINATION'
+  | 'TOURNAMENT_COMPLETE'
+  | 'PRIZE_WON';
+
+export interface NotificationData {
+  type: NotificationType;
+  tournamentId: string;
+  tournamentName: string;
+  tableId?: string;
+  roundId?: string;
+  message: string;
+  data?: {
+    strikes?: number;
+    placement?: number;
+    prize?: number;
+    asset?: Asset;
+    targetPrice?: number;
+    actualPrice?: number;
+    timeRemaining?: number;
+  };
+}
+
+export interface NotificationPreferences {
+  enabled: boolean;
+  roundStarting: boolean;
+  predictionReminders: boolean;
+  roundResults: boolean;
+  eliminationAlerts: boolean;
+  tournamentComplete: boolean;
+  friendActivity: boolean;
+  quietHoursStart?: number; // Hour (0-23)
+  quietHoursEnd?: number; // Hour (0-23)
+}

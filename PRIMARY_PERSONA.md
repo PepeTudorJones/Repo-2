@@ -1,152 +1,193 @@
 # PredictMTT Primary Persona
 
-## Meet "Alex" - The Competitive Crypto Grinder
+## Meet "Jordan" - The Casual Crypto Enthusiast
 
 ### Demographics
-- **Age**: 28 years old
-- **Location**: United States (urban, tech-friendly city)
-- **Occupation**: Mix of professional poker player, day trader, and crypto enthusiast
-- **Income**: Variable ($40k-$150k/year depending on market conditions)
+- **Age**: 22 years old
+- **Location**: United States (college town or urban area)
+- **Occupation**: College student, junior professional, or gig worker
+- **Income**: $25k-$45k/year (limited disposable income, careful with spending)
 
 ### Background & Experience
-- **Poker**: 5+ years playing online MTTs on PokerStars, GGPoker
-- **Crypto**: Active trader, holds BTC/ETH, follows markets daily
-- **Prediction Markets**: Used Polymarket, Kalshi, and sports betting apps
-- **Tech Savvy**: Ranges from Web3 native (has MetaMask, uses DeFi) to traditional payment preference
+- **Gaming**: Plays Among Us, Jackbox Party Packs, Fall Guys - loves social party games
+- **Crypto**: Owns some BTC/ETH, checks prices on Coinbase app, follows crypto Twitter casually
+- **Mobile Games**: Candy Crush, Wordle, daily puzzle games - plays during commute/breaks
+- **Tech Savvy**: Mobile-first generation, comfortable with apps but not a power user
 
 ### Core Motivations
-**PRIMARY**: Profit through skilled prediction with low entry fees for high potential returns
-- Sees PredictMTT as a +EV (positive expected value) opportunity
-- Attracted to tournament variance and big multipliers on small buy-ins
-- Values skill over pure luck
+**PRIMARY**: Entertainment and social fun with potential upside
+- Plays for the thrill and excitement, not to grind profits
+- Enjoys the "what if I win big?" lottery-style dream
+- Wants something to talk about with friends ("I just won a crypto tournament!")
+- Low commitment - can play while doing other things
 
-**SECONDARY**: Entertainment and competition
-- Enjoys the thrill of elimination-style tournaments
-- Wants bragging rights for major tournament wins
-- Social element matters when playing with friends
+**SECONDARY**: Passive crypto engagement
+- Interested in crypto but intimidated by trading
+- Likes the gamified way to engage with BTC/ETH prices
+- Enjoys learning about market movements through gameplay
+- Small wins feel like "free crypto"
 
 ### Behavioral Patterns
 
-**Session Frequency**: Both grinder and weekend warrior
-- Grinds smaller buy-in turbos during weekday evenings (2-3 tournaments/night)
-- Plays longer, higher-stakes tournaments on weekends (4+ hour sessions)
-- Checks lobby multiple times per day looking for new tournaments
+**Session Frequency**: Async throughout the day
+- Checks phone 50+ times per day naturally
+- Responds to notification pings during: commute, lunch breaks, between tasks, TV commercial breaks
+- Total active time: 15-30 minutes per day spread across 20+ micro-interactions
+- Plays 2-4 tournaments simultaneously (staggered start times)
+- Weekend binges when hanging with friends ("Let's all predict together!")
 
-**Bankroll Management**: Multi-level player
-- Regular play: $5-$25 buy-ins
-- Weekend specials: $50-$100 buy-ins
-- Occasional shots: $250-$500 major events
-- Expects 50-100+ tournament options daily across all stakes
+**Buy-In Sweet Spot**: $5-$15 tournaments
+- Willing to spend coffee money on entertainment
+- Occasional $25-$50 tournament with friends for weekend fun
+- Not tracking ROI or profit - just vibes and wins
+- More likely to play if friends are in the tournament
 
 **Play Style**:
-- Studies price charts before predictions
-- Understands technical analysis (support/resistance, trends)
-- Makes calculated predictions, not random guesses
-- Adapts strategy based on tournament stage (early vs. bubble vs. final table)
+- Makes gut feeling predictions (maybe checks current price on chart)
+- Chooses OVER/UNDER based on "vibes" and recent news headlines
+- Doesn't study technical analysis - just wants to make a quick call
+- Enjoys the social aspect: "I'm going OVER, what are you picking?"
+- Screenshots wins to share on group chat
 
 ### Pain Points & Fears
 
 **CRITICAL DEALBREAKERS**:
-1. **Technical issues during key moments** - App crash during prediction lock-in = immediate uninstall
-2. **Lack of tournament action** - Needs constant availability, hates waiting
-3. **Unfair mechanics** - Suspicious of rigged price feeds or insider advantages
+1. **Requires too much attention** - Won't download if it needs constant watching like poker
+2. **Confusing UI** - App should be instantly understandable (TikTok-level simplicity)
+3. **Notification spam** - Hates too many pings, but needs timely round alerts
+4. **Feeling dumb** - Intimidated by complex financial/trading jargon
 
 **MINOR FRUSTRATIONS**:
-- Slow app performance
-- Confusing UI that requires learning curve
-- Poor mobile experience (but will tolerate for profit)
-- Withdrawal delays
+- Slow loading times (Gen Z has 8-second attention span)
+- Having to remember to check back (needs push notifications)
+- Missing prediction windows because forgot about tournament
+- Not understanding why they lost (needs clear "BTC ended at $50,200, you picked UNDER" messaging)
 
 ### Success Metrics
 
 **Winning Definition**:
-- Positive ROI over 100+ tournaments (tracks stats obsessively)
-- Winning at least one "major" tournament ($1000+ prize pool) per quarter
-- Building reputation as a skilled predictor
-- Having fun while grinding (entertainment value matters)
+- Had fun and didn't feel stressed
+- Won at least once (doesn't matter how small)
+- Has cool screenshots to share with friends
+- Feels like they "get" crypto now
+- Didn't lose more than they budgeted for entertainment
 
 **Engagement Indicators**:
-- Plays 10+ tournaments per week
-- Deposits additional funds monthly
-- Refers friends who are also poker/crypto enthusiasts
-- Active in community discussions about strategy
+- Opens app from notifications 5-10 times per day
+- Plays 10-20 tournaments per week (async style)
+- Shares results on social media or group chats
+- Invites friends to play together
+- Checks leaderboards to compare with friends
 
 ### Technology Comfort
 
-**Spectrum of Users**:
-- **Web3 Native (40%)**: Has crypto wallet, comfortable with DeFi, wants blockchain integration
-- **Crypto Curious (35%)**: Trades on Coinbase, prefers simple wallet solutions
-- **Traditional (25%)**: Just wants to deposit with credit card, doesn't care about crypto tech
+**Mobile-First Behavior**:
+- iPhone primary device (95% of usage)
+- Expects Face ID / biometric login
+- Wants Apple Pay / credit card deposit (crypto wallet is complicated)
+- Uses notifications as primary app engagement driver
+- Expects smooth animations and instant feedback (like Instagram/TikTok)
 
-**Common Ground**: All users are comfortable with:
-- Mobile apps (iOS/Android)
-- Financial transactions online
-- Basic chart reading
-- Competitive gaming interfaces
+**Social Integration Expectations**:
+- Wants to see friends' predictions and results
+- Expects shareable moments (tournament wins, big predictions)
+- Comfortable with "Login with Apple" or "Login with Google"
+- Might connect Discord or Twitter for identity
 
 ### Competitive Context
 
-**Alex's Current Apps**:
-- **Poker**: PokerStars, GGPoker (for tournament structure)
-- **Trading**: Binance, Coinbase, TradingView (for price analysis)
-- **Prediction**: Polymarket, Kalshi (for prediction markets)
-- **Social**: Discord servers for poker/crypto communities
+**Jordan's Current Apps**:
+- **Social Games**: Among Us, Jackbox, Words With Friends
+- **Casual Mobile**: Wordle, NYT Games, Candy Crush
+- **Crypto**: Coinbase app (just to check prices), crypto Twitter
+- **Finance**: Robinhood, Cash App (casual investing)
+- **Social**: TikTok, Instagram, Discord group chats
 
-**Why Alex Chooses PredictMTT**:
-1. Tournament format creates bigger payouts than traditional prediction markets
-2. Faster pace than poker (rounds are 15-60 min vs. hours for poker MTTs)
-3. Skill-based but with understandable mechanics (price prediction vs. complex game theory)
-4. Lower rake/fees than traditional sportsbooks
-5. Familiar poker client aesthetic feels professional
+**Why Jordan Chooses PredictMTT**:
+1. Can play throughout the day without constant attention (async notifications)
+2. Simple binary choice (OVER/UNDER) - no complicated strategy
+3. Social and fun - plays with friends, shares wins
+4. Feels like a party game mixed with crypto (two interests combined)
+5. Low stakes entertainment ($5-15) with chance at big wins
+6. Learns about crypto prices in a fun way
 
 ### User Journey Goals
 
 **First Session**:
-- Browse lobby, understand tournament types
-- Play one micro-stakes tournament ($5-10) to learn mechanics
-- Experience full tournament flow (prediction → resolution → elimination/win)
-- Decide if strategy is profitable
+- Download app from friend's referral or App Store discovery
+- Quick onboarding (under 2 minutes)
+- Join first free or $5 tournament immediately
+- Make first OVER/UNDER prediction in under 30 seconds
+- Get hooked by notification ping 30 minutes later
+- Experience win or loss with clear results screen
 
 **Week 1**:
-- Play 5-10 tournaments
-- Test different prediction strategies
-- Understand edge cases and optimal play
-- Deposit more funds if winning
+- Enable push notifications after first positive experience
+- Join 3-5 tournaments running simultaneously
+- Respond to notifications throughout daily routine
+- Share first win on group chat
+- Invite one friend to play
 
 **Month 1**:
-- Established routine (daily grinding or weekend play)
-- Developed personal strategy
-- Tracking ROI and stats
-- Referring friends if experience is positive
+- Default app to check during idle moments
+- Running 3-4 tournaments constantly (staggered)
+- Part of friend group culture ("Did you predict yet?")
+- Small deposits when tournaments are fun ($20-40/month entertainment budget)
+- Feels comfortable with crypto price movements
+
+### The Async Flow Jordan Loves
+
+**Morning** (7-9 AM):
+- 🔔 Notification: "Your round resolved! +$8" → Opens app, sees result, enters next tournament
+
+**Mid-Morning** (10:30 AM):
+- 🔔 "New round starting in 2 min!" → Quick break, makes OVER prediction, locks in, back to work
+
+**Lunch** (12-1 PM):
+- 🔔 "Round resolved! You got a strike ⚠️" → Checks result while eating, makes next prediction
+
+**Afternoon** (3 PM):
+- 🔔 "Final round - 6 players left!" → Excitement builds, makes crucial prediction
+
+**Evening** (6 PM):
+- 🔔 "You placed 3rd! Won $45!" → Screenshots result, shares with friends, joins new tournament
+
+**Total Time Actively Using App**: 15-20 minutes
+**Total Engagement**: All day through notifications
+**Feeling**: Fun, exciting, didn't feel like "work"
 
 ### Red Flags That Cause Churn
 
-1. **Ghost town lobby** - Fewer than 10 active tournaments
-2. **Technical failures** - Even one critical bug during play
-3. **Unfair losses** - Suspicious price movements or resolution issues
-4. **Poor mobile UX** - If iPhone app feels clunky or slow
-5. **Withdrawal problems** - Can't cash out winnings easily
-6. **Stale competition** - Same players every tournament (wants fresh fish)
+1. **Too complicated** - Needs charts, TA knowledge, or strategy guides
+2. **Requires constant attention** - Can't just check notifications
+3. **No friends playing** - Feels lonely without social element
+4. **Notification overload** - More than 15-20 pings per day
+5. **Losing too often** - Binary system means ~50% wrong predictions, needs to feel fair
+6. **Missed opportunities** - Forgot to predict and got eliminated (needs better alerts)
+7. **Slow experience** - Loading takes >3 seconds, animations lag
 
 ### Voice of the User
 
-**What Alex Says**:
-> "I'm looking for +EV spots with tournament variance. If I can grind $10 turbos with a 12% ROI and take shots at Sunday majors, I'm in. But the app better not crash when I'm locking in a final table prediction."
+**What Jordan Says**:
+> "I love that I can play this while doing literally anything else. Just get a ping, pick OVER or UNDER, done. Way better than poker where you have to sit and pay attention for hours."
 
-> "I play poker for the skill, but I love that crypto price prediction is more transparent. No bad beats from river cards - just pure skill reading charts and market sentiment."
+> "It's like Wordle but for crypto prices. Make your guess, come back later to see if you were right. And if you win you actually get money lol."
 
-> "The poker aesthetic is perfect. Makes it feel serious and professional, not like some gambling degen app. This is competitive gaming for people who understand markets."
+> "My whole friend group plays now. We have a Discord where we argue about predictions and share wins. It's so fun when we're all in the same tournament."
+
+> "I'm not a trader or anything but now I actually understand why BTC moves. Like I can see the chart and make a call. Feels less scary than trying to day trade."
 
 ---
 
 ## Design Success Criteria
 
-Alex represents success if:
-- ✅ Plays 10+ tournaments per week after first month
-- ✅ Maintains positive ROI (proves skill matters)
-- ✅ Refers at least 2 friends
-- ✅ Zero technical issues experienced
-- ✅ Always finds tournaments available in preferred stake range
-- ✅ Withdraws winnings successfully within 48 hours
+Jordan represents success if:
+- ✅ Opens app 10+ times per day from notifications
+- ✅ Plays 10-20 tournaments per week (async style)
+- ✅ Refers at least 3 friends within first month
+- ✅ Shares tournament results on social media at least once
+- ✅ Deposits $20-40/month for entertainment (not tracking profits)
+- ✅ Describes experience as "fun and chill, not stressful"
+- ✅ Stays engaged for 3+ months (not just week 1 novelty)
 
-This persona should guide all UX decisions, feature prioritization, and technical infrastructure requirements.
+This persona should guide all UX decisions, feature prioritization, and technical infrastructure requirements. **The async notification-driven model is core to Jordan's experience** - the app must feel like it fits naturally into daily phone usage, not like a dedicated gaming session.
