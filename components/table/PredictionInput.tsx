@@ -9,7 +9,8 @@ interface PredictionInputProps {
   currentPrice: number;
   asset: Asset;
   onLockIn: (prediction: number) => void;
-  deadline: number;
+  changeDeadline: number; // 4 minutes - can change prediction
+  lockDeadline: number; // 5 minutes - final lock-in
   disabled?: boolean;
   locked?: boolean;
 }
@@ -18,12 +19,14 @@ export const PredictionInput: React.FC<PredictionInputProps> = ({
   currentPrice,
   asset,
   onLockIn,
-  deadline,
+  changeDeadline,
+  lockDeadline,
   disabled = false,
   locked = false,
 }) => {
   const [prediction, setPrediction] = useState<string>(currentPrice.toFixed(2));
-  const [timeRemaining, setTimeRemaining] = useState<number>(0);
+  const [timeToChange, setTimeToChange] = useState<number>(0);
+  const [timeToLock, setTimeToLock] = useState<number>(0);
 
   useEffect(() => {
     setPrediction(currentPrice.toFixed(2));
@@ -31,16 +34,20 @@ export const PredictionInput: React.FC<PredictionInputProps> = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const remaining = Math.max(0, Math.floor((deadline - Date.now()) / 1000));
-      setTimeRemaining(remaining);
+      const now = Date.now();
+      const changeRemaining = Math.max(0, Math.floor((changeDeadline - now) / 1000));
+      const lockRemaining = Math.max(0, Math.floor((lockDeadline - now) / 1000));
 
-      if (remaining === 0) {
+      setTimeToChange(changeRemaining);
+      setTimeToLock(lockRemaining);
+
+      if (lockRemaining === 0) {
         clearInterval(interval);
       }
     }, 100);
 
     return () => clearInterval(interval);
-  }, [deadline]);
+  }, [changeDeadline, lockDeadline]);
 
   const handleAdjust = (delta: number) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -57,22 +64,43 @@ export const PredictionInput: React.FC<PredictionInputProps> = ({
     }
   };
 
-  const isUrgent = timeRemaining <= 10;
-  const isExpired = timeRemaining === 0;
+  // Determine current phase
+  const canChange = timeToChange > 0; // First 4 minutes
+  const canLock = timeToLock > 0; // First 5 minutes
+  const inLockPhase = !canChange && canLock; // Between 4 and 5 minutes
+  const isExpired = !canLock; // After 5 minutes
+
+  const isUrgent = timeToLock <= 30 && timeToLock > 0;
+  const isChangeUrgent = timeToChange <= 30 && timeToChange > 0;
 
   return (
     <View style={styles.container}>
       <View style={styles.timerContainer}>
-        <Text style={styles.timerLabel}>TIME REMAINING</Text>
+        <Text style={styles.timerLabel}>
+          {canChange
+            ? 'TIME TO CHANGE'
+            : inLockPhase
+            ? 'TIME TO LOCK IN'
+            : 'PREDICTION WINDOW CLOSED'}
+        </Text>
         <Text
           style={[
             styles.timer,
-            isUrgent && styles.timerUrgent,
+            (isUrgent || isChangeUrgent) && styles.timerUrgent,
             isExpired && styles.timerExpired,
           ]}
         >
-          {formatTime(timeRemaining)}
+          {canChange
+            ? formatTime(timeToChange)
+            : inLockPhase
+            ? formatTime(timeToLock)
+            : '0:00'}
         </Text>
+        {inLockPhase && !locked && (
+          <Text style={styles.phaseMessage}>
+            Cannot change prediction - lock in now!
+          </Text>
+        )}
       </View>
 
       <View style={styles.inputSection}>
@@ -88,7 +116,7 @@ export const PredictionInput: React.FC<PredictionInputProps> = ({
             <TouchableOpacity
               style={styles.adjustButton}
               onPress={() => handleAdjust(-100)}
-              disabled={disabled || locked}
+              disabled={disabled || locked || !canChange}
             >
               <Text style={styles.adjustText}>-100</Text>
             </TouchableOpacity>
@@ -96,7 +124,7 @@ export const PredictionInput: React.FC<PredictionInputProps> = ({
             <TouchableOpacity
               style={styles.adjustButton}
               onPress={() => handleAdjust(-10)}
-              disabled={disabled || locked}
+              disabled={disabled || locked || !canChange}
             >
               <Text style={styles.adjustText}>-10</Text>
             </TouchableOpacity>
@@ -104,7 +132,7 @@ export const PredictionInput: React.FC<PredictionInputProps> = ({
             <TouchableOpacity
               style={styles.adjustButton}
               onPress={() => handleAdjust(-1)}
-              disabled={disabled || locked}
+              disabled={disabled || locked || !canChange}
             >
               <Text style={styles.adjustText}>-1</Text>
             </TouchableOpacity>
@@ -114,13 +142,13 @@ export const PredictionInput: React.FC<PredictionInputProps> = ({
               value={prediction}
               onChangeText={setPrediction}
               keyboardType="decimal-pad"
-              editable={!disabled && !locked}
+              editable={!disabled && !locked && canChange}
             />
 
             <TouchableOpacity
               style={styles.adjustButton}
               onPress={() => handleAdjust(1)}
-              disabled={disabled || locked}
+              disabled={disabled || locked || !canChange}
             >
               <Text style={styles.adjustText}>+1</Text>
             </TouchableOpacity>
@@ -128,7 +156,7 @@ export const PredictionInput: React.FC<PredictionInputProps> = ({
             <TouchableOpacity
               style={styles.adjustButton}
               onPress={() => handleAdjust(10)}
-              disabled={disabled || locked}
+              disabled={disabled || locked || !canChange}
             >
               <Text style={styles.adjustText}>+10</Text>
             </TouchableOpacity>
@@ -136,7 +164,7 @@ export const PredictionInput: React.FC<PredictionInputProps> = ({
             <TouchableOpacity
               style={styles.adjustButton}
               onPress={() => handleAdjust(100)}
-              disabled={disabled || locked}
+              disabled={disabled || locked || !canChange}
             >
               <Text style={styles.adjustText}>+100</Text>
             </TouchableOpacity>
@@ -185,6 +213,13 @@ const styles = StyleSheet.create({
   },
   timerExpired: {
     color: '#ef4444',
+  },
+  phaseMessage: {
+    color: '#f59e0b',
+    fontSize: 12,
+    fontWeight: '600',
+    marginTop: 8,
+    textAlign: 'center',
   },
   inputSection: {
     gap: 16,

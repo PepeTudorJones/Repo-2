@@ -92,6 +92,8 @@ export const mockSeats: Seat[] = [
     status: 'ACTIVE',
     currentPrediction: null,
     isCurrentPlayer: false,
+    strikes: 0,
+    maxStrikes: 3,
   },
   {
     position: 1,
@@ -101,6 +103,8 @@ export const mockSeats: Seat[] = [
     status: 'ACTIVE',
     currentPrediction: null,
     isCurrentPlayer: false,
+    strikes: 1,
+    maxStrikes: 3,
   },
   {
     position: 2,
@@ -110,6 +114,8 @@ export const mockSeats: Seat[] = [
     status: 'ACTIVE',
     currentPrediction: null,
     isCurrentPlayer: false,
+    strikes: 2,
+    maxStrikes: 3,
   },
   {
     position: 3,
@@ -119,6 +125,8 @@ export const mockSeats: Seat[] = [
     status: 'LOCKED_IN',
     currentPrediction: 50250,
     isCurrentPlayer: false,
+    strikes: 0,
+    maxStrikes: 3,
   },
   {
     position: 4,
@@ -128,6 +136,8 @@ export const mockSeats: Seat[] = [
     status: 'ACTIVE',
     currentPrediction: null,
     isCurrentPlayer: false,
+    strikes: 1,
+    maxStrikes: 3,
   },
   {
     position: 5,
@@ -137,6 +147,8 @@ export const mockSeats: Seat[] = [
     status: 'LOCKED_IN',
     currentPrediction: 49900,
     isCurrentPlayer: false,
+    strikes: 0,
+    maxStrikes: 3,
   },
   {
     position: 6,
@@ -146,6 +158,8 @@ export const mockSeats: Seat[] = [
     status: 'ACTIVE',
     currentPrediction: null,
     isCurrentPlayer: false,
+    strikes: 2,
+    maxStrikes: 3,
   },
   {
     position: 7,
@@ -155,6 +169,8 @@ export const mockSeats: Seat[] = [
     status: 'ACTIVE',
     currentPrediction: null,
     isCurrentPlayer: true,
+    strikes: 0,
+    maxStrikes: 3,
   },
   {
     position: 8,
@@ -164,17 +180,23 @@ export const mockSeats: Seat[] = [
     status: 'EMPTY',
     currentPrediction: null,
     isCurrentPlayer: false,
+    strikes: 0,
+    maxStrikes: 3,
   },
 ];
 
+const now = Date.now();
 export const mockRound: Round = {
   id: 'round1',
   tableId: 'table1',
   levelNumber: 1,
   asset: 'BTC',
   startPrice: 49800,
-  predictionDeadline: Date.now() + 45000,
-  resolutionTime: Date.now() + 1800000,
+  roundStartTime: now,
+  predictionWindowStart: now,
+  predictionChangeDeadline: now + 4 * 60 * 1000, // +4 minutes
+  predictionLockDeadline: now + 5 * 60 * 1000, // +5 minutes
+  resolutionTime: now + 30 * 60 * 1000, // +30 minutes
   actualEndPrice: null,
   predictions: [],
   eliminations: [],

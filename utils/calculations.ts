@@ -16,22 +16,73 @@ export const calculatePredictionAccuracy = (
   return Math.max(0, 100 - percentageError);
 };
 
-export const determineSurvivors = (
+/**
+ * Determines who gets strikes based on the three-strikes rule
+ * The player(s) with the worst prediction gets a strike
+ * Players with 3 strikes are eliminated
+ */
+export const determineStrikes = (
   predictions: Prediction[],
   actualPrice: number,
-  eliminationCount: number
-): Prediction[] => {
-  const sortedPredictions = [...predictions].sort((a, b) => {
-    const distanceA = calculatePredictionDistance(a.predictedPrice, actualPrice);
-    const distanceB = calculatePredictionDistance(b.predictedPrice, actualPrice);
-    return distanceA - distanceB;
-  });
+  currentStrikes: Map<string, number> // Current strike count per playerId
+): {
+  updatedPredictions: Prediction[];
+  strikes: Map<string, number>; // Updated strike counts
+  eliminations: string[]; // PlayerIds who hit 3 strikes
+} => {
+  if (predictions.length === 0) {
+    return {
+      updatedPredictions: [],
+      strikes: new Map(currentStrikes),
+      eliminations: [],
+    };
+  }
 
-  return sortedPredictions.map((pred, index) => ({
+  // Calculate distances for all predictions
+  const predictionsWithDistance = predictions.map((pred) => ({
     ...pred,
     distance: calculatePredictionDistance(pred.predictedPrice, actualPrice),
-    survived: index < predictions.length - eliminationCount,
   }));
+
+  // Find the worst distance (highest)
+  const worstDistance = Math.max(...predictionsWithDistance.map((p) => p.distance!));
+
+  // All players with the worst distance get a strike (handles ties)
+  const updatedStrikes = new Map(currentStrikes);
+  const eliminations: string[] = [];
+
+  const updatedPredictions = predictionsWithDistance.map((pred) => {
+    const isWorst = pred.distance === worstDistance;
+
+    if (isWorst) {
+      const currentStrikeCount = updatedStrikes.get(pred.playerId) || 0;
+      const newStrikeCount = currentStrikeCount + 1;
+      updatedStrikes.set(pred.playerId, newStrikeCount);
+
+      // Check if this is their 3rd strike
+      if (newStrikeCount >= 3) {
+        eliminations.push(pred.playerId);
+      }
+
+      return {
+        ...pred,
+        isStrike: true,
+        wasEliminated: newStrikeCount >= 3,
+      };
+    }
+
+    return {
+      ...pred,
+      isStrike: false,
+      wasEliminated: false,
+    };
+  });
+
+  return {
+    updatedPredictions,
+    strikes: updatedStrikes,
+    eliminations,
+  };
 };
 
 export const calculatePrizeDistribution = (
@@ -54,13 +105,19 @@ export const calculatePrizeDistribution = (
   return structure.map((percentage) => totalPrize * percentage);
 };
 
-export const getEliminationCount = (
-  playersRemaining: number,
-  levelNumber: number
-): number => {
-  if (playersRemaining <= 3) return 1;
-  if (playersRemaining <= 9) return 1;
-  if (levelNumber < 3) return 1;
-  if (levelNumber < 6) return 2;
-  return Math.max(1, Math.floor(playersRemaining * 0.2));
+/**
+ * Creates round timing structure for 30-minute rounds
+ * - 5 minute prediction window at the start
+ * - First 4 minutes: can change prediction
+ * - Last 1 minute: locked, cannot change
+ * - Remaining 25 minutes: waiting for resolution
+ */
+export const createRoundTiming = (roundStartTime: number) => {
+  return {
+    roundStartTime,
+    predictionWindowStart: roundStartTime,
+    predictionChangeDeadline: roundStartTime + 4 * 60 * 1000, // +4 minutes
+    predictionLockDeadline: roundStartTime + 5 * 60 * 1000, // +5 minutes
+    resolutionTime: roundStartTime + 30 * 60 * 1000, // +30 minutes
+  };
 };

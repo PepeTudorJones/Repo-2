@@ -55,6 +55,23 @@ export const PlayerSeat: React.FC<PlayerSeatProps> = ({
           {seat.playerName}
         </Text>
 
+        {/* Strikes Display */}
+        {!isEliminated && (
+          <View style={styles.strikesContainer}>
+            {Array.from({ length: seat.maxStrikes }).map((_, index) => (
+              <Text
+                key={index}
+                style={[
+                  styles.strikeIndicator,
+                  index < seat.strikes && styles.strikeActive,
+                ]}
+              >
+                {index < seat.strikes ? '⚠' : '○'}
+              </Text>
+            ))}
+          </View>
+        )}
+
         {isLockedIn && !showPrediction && (
           <Badge label="LOCKED IN" variant="success" size="small" />
         )}
@@ -139,6 +156,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  strikesContainer: {
+    flexDirection: 'row',
+    gap: 4,
+    marginTop: 2,
+  },
+  strikeIndicator: {
+    fontSize: 14,
+    color: '#9ca3af',
+  },
+  strikeActive: {
+    color: '#f59e0b',
   },
   statusText: {
     color: '#9ca3af',

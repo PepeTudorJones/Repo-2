@@ -147,7 +147,8 @@ export default function TableScreen() {
         currentPrice={currentPrice}
         asset={round?.asset || 'BTC'}
         onLockIn={handleLockIn}
-        deadline={round?.predictionDeadline || Date.now() + 60000}
+        changeDeadline={round?.predictionChangeDeadline || Date.now() + 4 * 60 * 1000}
+        lockDeadline={round?.predictionLockDeadline || Date.now() + 5 * 60 * 1000}
         disabled={currentTable.status !== 'PREDICTIONS_OPEN'}
         locked={predictionLocked}
       />

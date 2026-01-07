@@ -38,6 +38,8 @@ export interface Seat {
   status: SeatStatus;
   currentPrediction: number | null;
   isCurrentPlayer: boolean;
+  strikes: number; // 0-3, eliminated at 3
+  maxStrikes: number; // Always 3 for now
 }
 
 export interface Round {
@@ -46,11 +48,14 @@ export interface Round {
   levelNumber: number;
   asset: Asset;
   startPrice: number;
-  predictionDeadline: number;
-  resolutionTime: number;
+  roundStartTime: number; // When the round starts
+  predictionWindowStart: number; // Same as roundStartTime
+  predictionChangeDeadline: number; // roundStartTime + 4 minutes (can change prediction)
+  predictionLockDeadline: number; // roundStartTime + 5 minutes (final lock-in)
+  resolutionTime: number; // roundStartTime + 30 minutes (when round ends and strikes are given)
   actualEndPrice: number | null;
   predictions: Prediction[];
-  eliminations: string[];
+  eliminations: string[]; // playerIds who got their 3rd strike this round
 }
 
 export interface Prediction {
@@ -58,8 +63,9 @@ export interface Prediction {
   playerName: string;
   predictedPrice: number;
   lockedAt: number;
-  distance: number | null;
-  survived: boolean | null;
+  distance: number | null; // Distance from actual price
+  isStrike: boolean | null; // True if this was the worst prediction (or tied for worst)
+  wasEliminated: boolean | null; // True if this strike caused elimination (3rd strike)
 }
 
 export interface PricePoint {
