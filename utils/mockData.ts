@@ -123,7 +123,7 @@ export const mockSeats: Seat[] = [
     playerName: 'ChartMaster',
     playerAvatar: null,
     status: 'LOCKED_IN',
-    currentPrediction: 50250,
+    currentPrediction: 'OVER',
     isCurrentPlayer: false,
     strikes: 0,
     maxStrikes: 3,
@@ -145,7 +145,7 @@ export const mockSeats: Seat[] = [
     playerName: 'Satoshi2.0',
     playerAvatar: null,
     status: 'LOCKED_IN',
-    currentPrediction: 49900,
+    currentPrediction: 'UNDER',
     isCurrentPlayer: false,
     strikes: 0,
     maxStrikes: 3,
@@ -192,6 +192,7 @@ export const mockRound: Round = {
   levelNumber: 1,
   asset: 'BTC',
   startPrice: 49800,
+  targetPrice: 50000, // Will BTC be over or under $50,000?
   roundStartTime: now,
   predictionWindowStart: now,
   predictionChangeDeadline: now + 4 * 60 * 1000, // +4 minutes

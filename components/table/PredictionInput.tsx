@@ -1,36 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import * as Haptics from 'expo-haptics';
-import { Asset } from '../../types';
+import { Asset, PredictionDirection } from '../../types';
 import { formatPrice, formatTime } from '../../utils/formatters';
-import { Button } from '../common';
 
 interface PredictionInputProps {
   currentPrice: number;
+  targetPrice: number;
   asset: Asset;
-  onLockIn: (prediction: number) => void;
+  onLockIn: (prediction: PredictionDirection) => void;
   changeDeadline: number; // 4 minutes - can change prediction
   lockDeadline: number; // 5 minutes - final lock-in
   disabled?: boolean;
   locked?: boolean;
+  lockedPrediction?: PredictionDirection | null;
 }
 
 export const PredictionInput: React.FC<PredictionInputProps> = ({
   currentPrice,
+  targetPrice,
   asset,
   onLockIn,
   changeDeadline,
   lockDeadline,
   disabled = false,
   locked = false,
+  lockedPrediction = null,
 }) => {
-  const [prediction, setPrediction] = useState<string>(currentPrice.toFixed(2));
+  const [selectedPrediction, setSelectedPrediction] = useState<PredictionDirection | null>(
+    lockedPrediction
+  );
   const [timeToChange, setTimeToChange] = useState<number>(0);
   const [timeToLock, setTimeToLock] = useState<number>(0);
-
-  useEffect(() => {
-    setPrediction(currentPrice.toFixed(2));
-  }, [currentPrice]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,19 +50,16 @@ export const PredictionInput: React.FC<PredictionInputProps> = ({
     return () => clearInterval(interval);
   }, [changeDeadline, lockDeadline]);
 
-  const handleAdjust = (delta: number) => {
+  const handleSelect = (direction: PredictionDirection) => {
+    if (!canChange || locked) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    const current = parseFloat(prediction) || currentPrice;
-    const newValue = (current + delta).toFixed(2);
-    setPrediction(newValue);
+    setSelectedPrediction(direction);
   };
 
   const handleLockIn = () => {
+    if (!selectedPrediction) return;
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    const value = parseFloat(prediction);
-    if (!isNaN(value) && value > 0) {
-      onLockIn(value);
-    }
+    onLockIn(selectedPrediction);
   };
 
   // Determine current phase
@@ -109,75 +107,82 @@ export const PredictionInput: React.FC<PredictionInputProps> = ({
           <Text style={styles.currentPrice}>{formatPrice(currentPrice, asset)}</Text>
         </View>
 
+        <View style={styles.targetDisplay}>
+          <Text style={styles.targetLabel}>TARGET PRICE</Text>
+          <Text style={styles.targetPrice}>{formatPrice(targetPrice, asset)}</Text>
+          <Text style={styles.questionText}>Will {asset} be OVER or UNDER?</Text>
+        </View>
+
         <View style={styles.predictionContainer}>
           <Text style={styles.predictionLabel}>YOUR PREDICTION</Text>
 
-          <View style={styles.inputRow}>
+          <View style={styles.buttonRow}>
             <TouchableOpacity
-              style={styles.adjustButton}
-              onPress={() => handleAdjust(-100)}
-              disabled={disabled || locked || !canChange}
+              style={[
+                styles.predictionButton,
+                styles.overButton,
+                selectedPrediction === 'OVER' && styles.selectedButton,
+                (!canChange || locked) && styles.disabledButton,
+              ]}
+              onPress={() => handleSelect('OVER')}
+              disabled={!canChange || locked || disabled}
+              activeOpacity={0.7}
             >
-              <Text style={styles.adjustText}>-100</Text>
+              <Text style={[
+                styles.buttonText,
+                selectedPrediction === 'OVER' && styles.selectedButtonText,
+              ]}>
+                OVER
+              </Text>
+              <Text style={[
+                styles.buttonSubtext,
+                selectedPrediction === 'OVER' && styles.selectedButtonText,
+              ]}>
+                {'>='} {formatPrice(targetPrice, asset)}
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.adjustButton}
-              onPress={() => handleAdjust(-10)}
-              disabled={disabled || locked || !canChange}
+              style={[
+                styles.predictionButton,
+                styles.underButton,
+                selectedPrediction === 'UNDER' && styles.selectedButton,
+                (!canChange || locked) && styles.disabledButton,
+              ]}
+              onPress={() => handleSelect('UNDER')}
+              disabled={!canChange || locked || disabled}
+              activeOpacity={0.7}
             >
-              <Text style={styles.adjustText}>-10</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.adjustButton}
-              onPress={() => handleAdjust(-1)}
-              disabled={disabled || locked || !canChange}
-            >
-              <Text style={styles.adjustText}>-1</Text>
-            </TouchableOpacity>
-
-            <TextInput
-              style={styles.input}
-              value={prediction}
-              onChangeText={setPrediction}
-              keyboardType="decimal-pad"
-              editable={!disabled && !locked && canChange}
-            />
-
-            <TouchableOpacity
-              style={styles.adjustButton}
-              onPress={() => handleAdjust(1)}
-              disabled={disabled || locked || !canChange}
-            >
-              <Text style={styles.adjustText}>+1</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.adjustButton}
-              onPress={() => handleAdjust(10)}
-              disabled={disabled || locked || !canChange}
-            >
-              <Text style={styles.adjustText}>+10</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.adjustButton}
-              onPress={() => handleAdjust(100)}
-              disabled={disabled || locked || !canChange}
-            >
-              <Text style={styles.adjustText}>+100</Text>
+              <Text style={[
+                styles.buttonText,
+                selectedPrediction === 'UNDER' && styles.selectedButtonText,
+              ]}>
+                UNDER
+              </Text>
+              <Text style={[
+                styles.buttonSubtext,
+                selectedPrediction === 'UNDER' && styles.selectedButtonText,
+              ]}>
+                {'<'} {formatPrice(targetPrice, asset)}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        <Button
-          title={locked ? 'LOCKED IN ✓' : 'LOCK IN PREDICTION'}
+        <TouchableOpacity
+          style={[
+            styles.lockButton,
+            locked && styles.lockedButton,
+            (!selectedPrediction || disabled || locked || isExpired) && styles.disabledLockButton,
+          ]}
           onPress={handleLockIn}
-          disabled={disabled || locked || isExpired}
-          variant={locked ? 'success' : 'primary'}
-          size="large"
-        />
+          disabled={!selectedPrediction || disabled || locked || isExpired}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.lockButtonText}>
+            {locked ? 'LOCKED IN ✓' : 'LOCK IN PREDICTION'}
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -239,9 +244,36 @@ const styles = StyleSheet.create({
   },
   currentPrice: {
     color: '#e5e5e5',
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '700',
     fontFamily: 'monospace',
+  },
+  targetDisplay: {
+    alignItems: 'center',
+    paddingVertical: 16,
+    backgroundColor: '#0f0f1a',
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: '#f59e0b',
+  },
+  targetLabel: {
+    color: '#9ca3af',
+    fontSize: 11,
+    fontWeight: '600',
+    letterSpacing: 0.5,
+    marginBottom: 4,
+  },
+  targetPrice: {
+    color: '#f59e0b',
+    fontSize: 28,
+    fontWeight: '700',
+    fontFamily: 'monospace',
+    marginBottom: 8,
+  },
+  questionText: {
+    color: '#9ca3af',
+    fontSize: 13,
+    fontWeight: '500',
   },
   predictionContainer: {
     gap: 12,
@@ -253,38 +285,67 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     textAlign: 'center',
   },
-  inputRow: {
+  buttonRow: {
     flexDirection: 'row',
+    gap: 12,
+  },
+  predictionButton: {
+    flex: 1,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+    borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,
   },
-  adjustButton: {
+  overButton: {
     backgroundColor: '#16213e',
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderRadius: 4,
-    minWidth: 50,
+    borderColor: '#22c55e',
   },
-  adjustText: {
-    color: '#10b981',
-    fontSize: 14,
-    fontWeight: '600',
-    textAlign: 'center',
-    fontFamily: 'monospace',
+  underButton: {
+    backgroundColor: '#16213e',
+    borderColor: '#ef4444',
   },
-  input: {
-    backgroundColor: '#0f0f1a',
-    borderWidth: 2,
+  selectedButton: {
+    backgroundColor: '#10b981',
     borderColor: '#10b981',
-    borderRadius: 4,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+  },
+  disabledButton: {
+    opacity: 0.4,
+  },
+  buttonText: {
     color: '#e5e5e5',
     fontSize: 20,
     fontWeight: '700',
+    letterSpacing: 0.5,
+    marginBottom: 4,
+  },
+  selectedButtonText: {
+    color: '#ffffff',
+  },
+  buttonSubtext: {
+    color: '#9ca3af',
+    fontSize: 12,
     fontFamily: 'monospace',
-    textAlign: 'center',
-    minWidth: 120,
+  },
+  lockButton: {
+    backgroundColor: '#10b981',
+    paddingVertical: 16,
+    borderRadius: 4,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  lockedButton: {
+    backgroundColor: '#22c55e',
+  },
+  disabledLockButton: {
+    opacity: 0.5,
+  },
+  lockButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
   },
 });

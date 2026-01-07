@@ -17,13 +17,14 @@ export const calculatePredictionAccuracy = (
 };
 
 /**
- * Determines who gets strikes based on the three-strikes rule
- * The player(s) with the worst prediction gets a strike
+ * Determines who gets strikes based on binary over/under predictions
+ * Everyone who guesses wrong gets a strike
  * Players with 3 strikes are eliminated
  */
 export const determineStrikes = (
   predictions: Prediction[],
   actualPrice: number,
+  targetPrice: number,
   currentStrikes: Map<string, number> // Current strike count per playerId
 ): {
   updatedPredictions: Prediction[];
@@ -38,23 +39,18 @@ export const determineStrikes = (
     };
   }
 
-  // Calculate distances for all predictions
-  const predictionsWithDistance = predictions.map((pred) => ({
-    ...pred,
-    distance: calculatePredictionDistance(pred.predictedPrice, actualPrice),
-  }));
+  // Determine if actual price was OVER or UNDER the target
+  const actualResult: 'OVER' | 'UNDER' = actualPrice >= targetPrice ? 'OVER' : 'UNDER';
 
-  // Find the worst distance (highest)
-  const worstDistance = Math.max(...predictionsWithDistance.map((p) => p.distance!));
-
-  // All players with the worst distance get a strike (handles ties)
+  // All players with wrong prediction get a strike
   const updatedStrikes = new Map(currentStrikes);
   const eliminations: string[] = [];
 
-  const updatedPredictions = predictionsWithDistance.map((pred) => {
-    const isWorst = pred.distance === worstDistance;
+  const updatedPredictions = predictions.map((pred) => {
+    const isCorrect = pred.predictedDirection === actualResult;
+    const isWrong = !isCorrect;
 
-    if (isWorst) {
+    if (isWrong) {
       const currentStrikeCount = updatedStrikes.get(pred.playerId) || 0;
       const newStrikeCount = currentStrikeCount + 1;
       updatedStrikes.set(pred.playerId, newStrikeCount);
@@ -66,6 +62,7 @@ export const determineStrikes = (
 
       return {
         ...pred,
+        isCorrect: false,
         isStrike: true,
         wasEliminated: newStrikeCount >= 3,
       };
@@ -73,6 +70,7 @@ export const determineStrikes = (
 
     return {
       ...pred,
+      isCorrect: true,
       isStrike: false,
       wasEliminated: false,
     };

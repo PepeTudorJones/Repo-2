@@ -1,13 +1,13 @@
 import { create } from 'zustand';
-import { Table, Round, Prediction } from '../types';
+import { Table, Round, Prediction, PredictionDirection } from '../types';
 
 interface TableState {
   currentTable: Table | null;
-  myPrediction: number | null;
+  myPrediction: PredictionDirection | null;
   predictionLocked: boolean;
   setCurrentTable: (table: Table) => void;
   updateRound: (round: Round) => void;
-  setMyPrediction: (prediction: number) => void;
+  setMyPrediction: (prediction: PredictionDirection) => void;
   lockPrediction: () => void;
   resetPrediction: () => void;
   addPrediction: (prediction: Prediction) => void;

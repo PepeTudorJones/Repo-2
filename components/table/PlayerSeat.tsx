@@ -77,16 +77,14 @@ export const PlayerSeat: React.FC<PlayerSeatProps> = ({
         )}
 
         {showPrediction && seat.currentPrediction && (
-          <View style={styles.predictionContainer}>
+          <View style={[
+            styles.predictionContainer,
+            seat.currentPrediction === 'OVER' ? styles.overPrediction : styles.underPrediction,
+          ]}>
             <Text style={styles.predictionLabel}>Predicted:</Text>
             <Text style={styles.predictionValue}>
-              {formatPrice(seat.currentPrediction, asset as any)}
+              {seat.currentPrediction}
             </Text>
-            {revealedPrice && (
-              <Text style={styles.distanceText}>
-                ±{formatPrice(Math.abs(seat.currentPrediction - revealedPrice), asset as any)}
-              </Text>
-            )}
           </View>
         )}
 
@@ -181,6 +179,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 4,
     marginTop: 4,
+    borderWidth: 1,
+  },
+  overPrediction: {
+    borderColor: '#22c55e',
+  },
+  underPrediction: {
+    borderColor: '#ef4444',
   },
   predictionLabel: {
     color: '#9ca3af',
@@ -191,12 +196,6 @@ const styles = StyleSheet.create({
     color: '#f59e0b',
     fontSize: 14,
     fontWeight: '700',
-    fontFamily: 'monospace',
-  },
-  distanceText: {
-    color: '#9ca3af',
-    fontSize: 10,
-    fontFamily: 'monospace',
-    marginTop: 2,
+    letterSpacing: 0.5,
   },
 });

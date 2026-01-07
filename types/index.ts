@@ -4,6 +4,7 @@ export type TournamentStatus = 'SCHEDULED' | 'REGISTERING' | 'RUNNING' | 'LATE_R
 export type TableStatus = 'WAITING' | 'PREDICTIONS_OPEN' | 'LOCKED' | 'RESOLVING';
 export type SeatStatus = 'EMPTY' | 'ACTIVE' | 'LOCKED_IN' | 'ELIMINATED';
 export type LevelDuration = 15 | 30 | 60;
+export type PredictionDirection = 'OVER' | 'UNDER';
 
 export interface Tournament {
   id: string;
@@ -36,7 +37,7 @@ export interface Seat {
   playerName: string | null;
   playerAvatar: string | null;
   status: SeatStatus;
-  currentPrediction: number | null;
+  currentPrediction: PredictionDirection | null; // 'OVER' or 'UNDER'
   isCurrentPlayer: boolean;
   strikes: number; // 0-3, eliminated at 3
   maxStrikes: number; // Always 3 for now
@@ -48,6 +49,7 @@ export interface Round {
   levelNumber: number;
   asset: Asset;
   startPrice: number;
+  targetPrice: number; // Binary threshold - predict OVER or UNDER this price
   roundStartTime: number; // When the round starts
   predictionWindowStart: number; // Same as roundStartTime
   predictionChangeDeadline: number; // roundStartTime + 4 minutes (can change prediction)
@@ -61,10 +63,10 @@ export interface Round {
 export interface Prediction {
   playerId: string;
   playerName: string;
-  predictedPrice: number;
+  predictedDirection: PredictionDirection; // 'OVER' or 'UNDER'
   lockedAt: number;
-  distance: number | null; // Distance from actual price
-  isStrike: boolean | null; // True if this was the worst prediction (or tied for worst)
+  isCorrect: boolean | null; // True if prediction was right (actualEndPrice vs targetPrice)
+  isStrike: boolean | null; // True if prediction was wrong (gets a strike)
   wasEliminated: boolean | null; // True if this strike caused elimination (3rd strike)
 }
 

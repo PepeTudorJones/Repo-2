@@ -4,6 +4,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { PriceChart, PredictionInput, PlayerSeat } from '../../components/table';
 import { useTableStore } from '../../stores/tableStore';
 import { formatTimeRemaining } from '../../utils/formatters';
+import { PredictionDirection } from '../../types';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
 export default function TableScreen() {
@@ -32,7 +33,7 @@ export default function TableScreen() {
   const round = currentTable.currentRound;
   const seats = currentTable.seats;
 
-  const handleLockIn = (prediction: number) => {
+  const handleLockIn = (prediction: PredictionDirection) => {
     setMyPrediction(prediction);
     lockPrediction();
   };
@@ -50,6 +51,8 @@ export default function TableScreen() {
         status: 'EMPTY',
         currentPrediction: null,
         isCurrentPlayer: false,
+        strikes: 0,
+        maxStrikes: 3,
       });
     }
 
@@ -145,6 +148,7 @@ export default function TableScreen() {
 
       <PredictionInput
         currentPrice={currentPrice}
+        targetPrice={round?.targetPrice || 50000}
         asset={round?.asset || 'BTC'}
         onLockIn={handleLockIn}
         changeDeadline={round?.predictionChangeDeadline || Date.now() + 4 * 60 * 1000}
